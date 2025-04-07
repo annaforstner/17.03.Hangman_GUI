@@ -1,7 +1,7 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,15 +16,12 @@ public class Hangman_Teil1 extends JFrame {
 
     private int fehler = 0;
     private int maxFehler = 9;
-
+    private int picCount = 1;
 
     public Hangman_Teil1() {
         setTitle("Hangman");
         setContentPane(death);
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
+
 
         // zusätzliche Dinger
         Random randomNumber = new Random();
@@ -40,6 +37,13 @@ public class Hangman_Teil1 extends JFrame {
         String ding = "_".repeat(s.length()); // this I found out through chatGPT
         StringBuilder aktuellerStand = new StringBuilder(ding);
         wordle.setText(aktuellerStand.toString());
+
+        // der Versuch Bilder einzufügen
+        ImageIcon neuesBild = new ImageIcon("hangman/hangman"+picCount+".png");
+        Image image = neuesBild.getImage();
+        Image neuesImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        neuesBild = new ImageIcon(neuesImage);
+        bilder.setIcon(neuesBild);
 
 
 
@@ -69,6 +73,12 @@ public class Hangman_Teil1 extends JFrame {
 
                 if (alterStand.equals(aktuellerStand.toString())) { // Wenn sich das Wort nicht geändert hat, war der Buchstabe falsch
                     fehler++;
+                    picCount++;
+                    ImageIcon neuesBild = new ImageIcon("hangman/hangman"+picCount+".png");
+                    Image image = neuesBild.getImage();
+                    Image neuesImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+                    neuesBild = new ImageIcon(neuesImage);
+                    bilder.setIcon(neuesBild);
                     JOptionPane.showMessageDialog(null, "Buchstabe nicht gefunden!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
 
@@ -88,6 +98,11 @@ public class Hangman_Teil1 extends JFrame {
                 history.setText(bstbnListe.toString());
             }
         });
+
+        pack();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
 
     }
 
